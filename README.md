@@ -1,1 +1,1 @@
-# VIVEQA-Shreekar-R-K
+# VIVEQA-Shreekar
