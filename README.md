@@ -1,4 +1,3 @@
-````md
 # FPGA Internship Portfolio
 
 ## About Me
