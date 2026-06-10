@@ -41,22 +41,6 @@ During this internship, I work on:
 
 The **Assignments** folder contains all internship assignments provided during the program.
 
-```text
-Assignments/
-├── Assignment_1/
-├── Assignment_2/
-├── Assignment_3/
-└── ...
-````
-
-Each assignment may include:
-
-* Problem Statement
-* RTL Design
-* Testbench
-* Simulation Results
-* Documentation
-
 ---
 
 ## Goal
