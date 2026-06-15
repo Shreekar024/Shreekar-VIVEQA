@@ -39,7 +39,6 @@ During this internship, I work on:
 
 ## Repository Structure
 
-The **Assignments** folder contains all internship assignments provided during the program.
 
 ---
 
