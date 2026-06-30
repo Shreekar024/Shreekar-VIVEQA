@@ -19,50 +19,63 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module adjustable_blink(
-    input clk,          // 50 MHz clock
-    input btn_inc,      // BTN1
-    input btn_dec,      // BTN2
-    output reg led
+    input clk,          
+    input btn_inc,
+    input btn_dec,
+    output reg led = 0
 );
-
-reg [2:0] speed_sel = 2;    // Start at 2 Hz
-reg [31:0] divider;
-reg [31:0] count = 0;
-
-// Speed selection
-always @(posedge btn_inc or posedge btn_dec)
-begin
-    if(btn_inc && speed_sel < 4)
-        speed_sel <= speed_sel + 1;
-    else if(btn_dec && speed_sel > 0)
-        speed_sel <= speed_sel - 1;
-end
-
-// Lookup table
-always @(*)
-begin
-    case(speed_sel)
-        3'd0: divider = 24000000; // 0.5 Hz
-        3'd1: divider = 12000000; // 1 Hz
-        3'd2: divider = 6000000;  // 2 Hz
-        3'd3: divider = 3000000;  // 4 Hz
-        3'd4: divider = 1500000;  // 8 Hz
-        default: divider = 6000000;
-    endcase
-end
-
-// LED blinking
-always @(posedge clk)
-begin
-    if(count >= divider-1)
-    begin
-        count <= 0;
-        led <= ~led;
+    reg [2:0] speed_sel = 2;
+    reg [31:0] counter = 0;
+    reg [31:0] toggle_count;
+    reg [20:0] debounce_cnt = 0;
+    reg debounce_busy = 0;
+    reg btn_inc_d = 0;
+    reg btn_dec_d = 0;
+    wire inc_edge;
+    wire dec_edge;
+    always @(posedge clk) begin
+        btn_inc_d <= btn_inc;
+        btn_dec_d <= btn_dec;
     end
-    else
-        count <= count + 1;
+    assign inc_edge = btn_inc & ~btn_inc_d;
+    assign dec_edge = btn_dec & ~btn_dec_d;
+    always @(posedge clk) begin
+        if(debounce_busy) begin
+            if(debounce_cnt == 2_000_000) begin // 20ms
+                debounce_cnt <= 0;
+                debounce_busy <= 0;
+            end
+            else
+                debounce_cnt <= debounce_cnt + 1;
+        end
+        else begin
+            if(inc_edge && speed_sel < 4) begin
+                speed_sel <= speed_sel + 1;
+         debounce_busy <= 1;
+            end
+            else if(dec_edge && speed_sel > 0) begin
+                speed_sel <= speed_sel - 1;
+                debounce_busy <= 1;
+            end
+        end
+    end
+    always @(*) begin
+        case(speed_sel)
+            3'd0: toggle_count = 100_000_000; // 0.5 Hz
+            3'd1: toggle_count = 50_000_000;  // 1 Hz
+            3'd2: toggle_count = 25_000_000;  // 2 Hz
+            3'd3: toggle_count = 12_500_000;  // 4 Hz
+            3'd4: toggle_count = 6_250_000;   // 8 Hz
+            default: toggle_count = 25_000_000;
+        endcase
+    end
+    always @(posedge clk) begin
+        if(counter >= toggle_count - 1) begin
+            counter <= 0;
+            led <= ~led;
 end
-
+        else
+            counter <= counter + 1;
+    end
 endmodule
