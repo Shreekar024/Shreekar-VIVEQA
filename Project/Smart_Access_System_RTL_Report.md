@@ -4,6 +4,7 @@
 **System Clock:** 24 MHz
 **HDL:** Verilog
 
+**Submitted by:** Shreekar R K(VA 006), Sudhanshu Rao(VA 005)
 ---
 
 # Part A — Plain-English Explanation
