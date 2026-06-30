@@ -21,10 +21,23 @@
 
 
 module mul_18(
-    input [17:0]A,B,
-    output [47:0]Y
-    );
+    input             clk,
+    input             rst,
+    input             en,
+    input      [17:0] A,
+    input      [17:0] B,
+    output reg [47:0] Y
+);
 
-assign Y=Y+A*B;
+wire [35:0] mult;
+
+assign mult = A * B;
+
+always @(posedge clk or posedge rst) begin
+    if (rst)
+        Y <= 48'd0;
+    else if (en)
+        Y <= Y + {12'd0, mult};   
+end
 
 endmodule
