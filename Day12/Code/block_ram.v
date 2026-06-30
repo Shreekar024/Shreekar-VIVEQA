@@ -20,11 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-//Synchronous Write 
-//Asynchronous Read
-//32 Width 1024 Depth
-//we =1 write the data at the posedge of clock
-//we =0 read the at the posedge of clock
+// Synchronous Write
+// Asynchronous Read
+// 32-bit width, 1024-depth
+// we = 1 : Write data on the rising edge of clk
+// Read data is available asynchronously from the addressed location
 module sp(clk,addr,we,write_data,read_data);
 input clk;
 input [9:0]addr;
