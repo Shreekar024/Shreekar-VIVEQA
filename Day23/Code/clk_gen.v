@@ -18,7 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "Xilinx Clock Wizard IP core"
 
 module clk_gen(
     input clk_in1,reset,
