@@ -19,6 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+//IOBUF is a hardware-specific primitive from Xilinx libraries, and vio_0/ila_0 are Vivado IP cores
 
 module mpu6050_top (
     input  wire clk,  
